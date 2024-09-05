@@ -26,6 +26,7 @@ public class Price {
     @Column(length = 20)
     private String packageCode;
     @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
 }

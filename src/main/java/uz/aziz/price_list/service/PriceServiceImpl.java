@@ -52,7 +52,7 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public ResponseDto<PriceDto> update(Long id, PriceDto priceDto) {
+    public ResponseDto<PriceDto> updateById(Long id, PriceDto priceDto) {
         try {
             Price price = priceMapper.toEntity(priceDto);
             price.setId(id);
@@ -63,6 +63,12 @@ public class PriceServiceImpl implements PriceService {
                     .formatted(priceDto.mxikCode(), priceDto.pricePerUnit());
             return new ResponseDto<>(msg);
         }
+    }
+
+    @Override
+    public ResponseDto<Boolean> deleteById(Long id) {
+        priceRepository.deleteById(id);
+        return new ResponseDto<>();
     }
 
 }

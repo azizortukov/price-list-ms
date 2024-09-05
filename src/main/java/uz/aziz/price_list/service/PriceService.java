@@ -13,5 +13,7 @@ public interface PriceService {
 
     ResponseDto<PriceDto> save(PriceDto priceDto);
 
-    ResponseDto<PriceDto> update(Long id, PriceDto priceDto);
+    ResponseDto<PriceDto> updateById(Long id, PriceDto priceDto);
+
+    ResponseDto<Boolean> deleteById(Long id);
 }

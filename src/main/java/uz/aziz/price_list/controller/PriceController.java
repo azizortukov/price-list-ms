@@ -39,7 +39,12 @@ public class PriceController {
 
     @PutMapping("/{id}")
     public ResponseDto<PriceDto> update(@PathVariable Long id, @RequestBody PriceDto priceDto) {
-        return priceService.update(id, priceDto);
+        return priceService.updateById(id, priceDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseDto<Boolean> delete(@PathVariable Long id) {
+        return priceService.deleteById(id);
     }
 
 
