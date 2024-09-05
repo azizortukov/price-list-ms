@@ -1,0 +1,11 @@
+spring:
+    application:
+        name: Price List MS
+    datasource:
+        url: jdbc:postgresql://localhost:5432/price_list
+        username: postgres
+        password: root123
+        driverClassName: org.postgresql.Driver
+    jpa:
+        hibernate:
+            ddl-auto: create
