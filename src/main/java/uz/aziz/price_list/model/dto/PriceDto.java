@@ -10,10 +10,10 @@ import java.io.Serializable;
 public record PriceDto(
 
         @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-        long id,
-        int serviceId,
+        Long id,
+        Integer serviceId,
         String mxikCode,
-        long pricePerUnit,
+        Long pricePerUnit,
         String packageCode
 
 ) implements Serializable {

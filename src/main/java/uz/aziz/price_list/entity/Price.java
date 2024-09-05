@@ -12,15 +12,17 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @Entity
+@Builder
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"mxik_code", "price_per_unit"})})
 public class Price {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private int serviceId;
+    private Long id;
+    private Integer serviceId;
     @Column(length = 17)
     private String mxikCode;
-    private long pricePerUnit;
+    private Long pricePerUnit;
     @Column(length = 20)
     private String packageCode;
     @CreationTimestamp
