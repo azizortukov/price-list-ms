@@ -13,4 +13,5 @@ public interface PriceService {
 
     ResponseDto<PriceDto> save(PriceDto priceDto);
 
+    ResponseDto<PriceDto> update(Long id, PriceDto priceDto);
 }

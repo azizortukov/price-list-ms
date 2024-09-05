@@ -37,5 +37,10 @@ public class PriceController {
         return priceService.save(priceDto);
     }
 
+    @PutMapping("/{id}")
+    public ResponseDto<PriceDto> update(@PathVariable Long id, @RequestBody PriceDto priceDto) {
+        return priceService.update(id, priceDto);
+    }
+
 
 }

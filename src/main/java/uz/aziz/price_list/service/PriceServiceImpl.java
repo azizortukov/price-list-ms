@@ -45,7 +45,21 @@ public class PriceServiceImpl implements PriceService {
             Price savedPrice = priceRepository.save(priceMapper.toEntity(priceDto));
             return new ResponseDto<>(priceMapper.toDto(savedPrice));
         } catch (DataIntegrityViolationException e) {
-            String msg = "Price with (mxik_code = '%s') and (price_per_unit = %d) already exists!"
+            String msg = "Couldn't be saved. Price with (mxik_code = '%s') and (price_per_unit = %d) already exists!"
+                    .formatted(priceDto.mxikCode(), priceDto.pricePerUnit());
+            return new ResponseDto<>(msg);
+        }
+    }
+
+    @Override
+    public ResponseDto<PriceDto> update(Long id, PriceDto priceDto) {
+        try {
+            Price price = priceMapper.toEntity(priceDto);
+            price.setId(id);
+            Price updatedPrice = priceRepository.save(price);
+            return new ResponseDto<>(priceMapper.toDto(updatedPrice));
+        } catch (DataIntegrityViolationException e) {
+            String msg = "Couldn't be updated. Price with (mxik_code = '%s') and (price_per_unit = %d) already exists!"
                     .formatted(priceDto.mxikCode(), priceDto.pricePerUnit());
             return new ResponseDto<>(msg);
         }
