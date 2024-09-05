@@ -1,6 +1,7 @@
 package uz.aziz.price_list.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,18 @@ public class PriceServiceImpl implements PriceService {
         Pageable pageable = PageRequest.of(page, size);
         List<Price> all = priceRepository.findAll(serviceId, mxikCode, pricePerUnit, packageCode, pageable);
         return new ResponseDto<>(priceMapper.toDtoList(all));
+    }
+
+    @Override
+    public ResponseDto<PriceDto> save(PriceDto priceDto) {
+        try {
+            Price savedPrice = priceRepository.save(priceMapper.toEntity(priceDto));
+            return new ResponseDto<>(priceMapper.toDto(savedPrice));
+        } catch (DataIntegrityViolationException e) {
+            String msg = "Price with (mxik_code = '%s') and (price_per_unit = %d) already exists!"
+                    .formatted(priceDto.mxikCode(), priceDto.pricePerUnit());
+            return new ResponseDto<>(msg);
+        }
     }
 
 }

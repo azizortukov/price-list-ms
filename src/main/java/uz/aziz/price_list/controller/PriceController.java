@@ -20,7 +20,7 @@ public class PriceController {
         return priceService.getById(id);
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseDto<List<PriceDto>> getAll(
             @RequestParam(required = false, name = "service_id") Integer serviceId,
             @RequestParam(required = false, name = "mxik_code") String mxikCode,
@@ -32,6 +32,10 @@ public class PriceController {
         return priceService.getAll(serviceId, mxikCode, pricePerUnit, packageCode, page, size);
     }
 
+    @PostMapping
+    public ResponseDto<PriceDto> create(@RequestBody PriceDto priceDto) {
+        return priceService.save(priceDto);
+    }
 
 
 }

@@ -11,4 +11,6 @@ public interface PriceService {
 
     ResponseDto<List<PriceDto>> getAll(Integer serviceId, String mxikCode, Long pricePerUnit, String packageCode, Integer page, Integer size);
 
+    ResponseDto<PriceDto> save(PriceDto priceDto);
+
 }
