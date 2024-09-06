@@ -1,6 +1,5 @@
 package uz.aziz.price_list.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -9,7 +8,6 @@ import java.time.LocalDateTime;
 public class ResponseDto<T> {
 
     private T data;
-    @JsonProperty("error_message")
     private String errorMessage;
     private LocalDateTime time;
 
