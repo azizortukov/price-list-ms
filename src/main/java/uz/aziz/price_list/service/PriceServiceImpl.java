@@ -53,6 +53,9 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public ResponseDto<PriceDto> updateById(Long id, PriceDto priceDto) {
+        if (!priceRepository.existsById(id)) {
+            return new ResponseDto<>("Price with id = %s not found".formatted(id));
+        }
         try {
             Price price = priceMapper.toEntity(priceDto);
             price.setId(id);

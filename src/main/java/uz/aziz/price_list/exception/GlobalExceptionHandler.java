@@ -1,4 +1,4 @@
-package uz.aziz.price_list.exceptions.handler;
+package uz.aziz.price_list.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
@@ -6,6 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 import uz.aziz.price_list.model.dto.ResponseDto;
 
 import java.util.Objects;
@@ -29,6 +30,11 @@ public class GlobalExceptionHandler {
             msg.append(fieldName).append(" - ").append(errorMessage);
         });
         return new ResponseDto<>(msg.toString());
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseDto<?> handleNoResourceFoundException(NoResourceFoundException e) {
+        return new ResponseDto<>("Page not found");
     }
 
     @ExceptionHandler(Throwable.class)
