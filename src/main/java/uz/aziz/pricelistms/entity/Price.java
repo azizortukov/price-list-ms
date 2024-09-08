@@ -1,8 +1,7 @@
-package uz.aziz.price_list.entity;
+package uz.aziz.pricelistms.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -25,7 +24,6 @@ public class Price {
     private Long pricePerUnit;
     @Column(length = 20)
     private String packageCode;
-    @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
 

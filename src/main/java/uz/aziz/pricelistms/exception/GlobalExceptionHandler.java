@@ -1,4 +1,4 @@
-package uz.aziz.price_list.exception;
+package uz.aziz.pricelistms.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
-import uz.aziz.price_list.model.dto.ResponseDto;
+import uz.aziz.pricelistms.model.dto.ResponseDto;
 
 import java.util.Objects;
 
@@ -39,8 +39,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Throwable.class)
     public ResponseDto<?> handleThrowable(Throwable throwable) {
-        throwable.printStackTrace();
-        return new ResponseDto<>(throwable.getMessage());
+        log.error("Exception in GlobalExceptionHandler.handleThrowable: {}", throwable.getMessage(), throwable);
+
+        return new ResponseDto<>(throwable.getLocalizedMessage());
     }
 
 }

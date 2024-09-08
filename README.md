@@ -39,7 +39,7 @@ The project is dockerized using Docker and Docker Compose. To run the applicatio
 
    **This will start:**
    - The application container on port `8080`
-   - The PostgreSQL database container on port `5455`
+   - The PostgreSQL database container on port `5432`
 
    *If you face problem as `Error response from daemon: Ports are not available`, you can modify the ports with the following command:*
    ```bash 

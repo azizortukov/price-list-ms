@@ -1,11 +1,11 @@
-package uz.aziz.price_list.model.dto;
+package uz.aziz.pricelistms.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
 /**
- * DTO for {@link uz.aziz.price_list.entity.Price}
+ * DTO for {@link uz.aziz.pricelistms.entity.Price}
  */
 public record PriceDto(
 

@@ -1,6 +1,6 @@
 spring:
     application:
-        name: Price List MS
+        name: price-list-ms
     datasource:
         url: jdbc:postgresql://localhost:5432/price_list
         username: postgres

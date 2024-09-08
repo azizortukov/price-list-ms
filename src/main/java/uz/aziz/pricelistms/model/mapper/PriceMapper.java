@@ -1,8 +1,8 @@
-package uz.aziz.price_list.model.mapper;
+package uz.aziz.pricelistms.model.mapper;
 
 import org.mapstruct.*;
-import uz.aziz.price_list.entity.Price;
-import uz.aziz.price_list.model.dto.PriceDto;
+import uz.aziz.pricelistms.entity.Price;
+import uz.aziz.pricelistms.model.dto.PriceDto;
 
 import java.util.List;
 
@@ -15,6 +15,4 @@ public interface PriceMapper {
 
     List<PriceDto> toDtoList(List<Price> prices);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Price partialUpdate(PriceDto priceDto, @MappingTarget Price price);
 }

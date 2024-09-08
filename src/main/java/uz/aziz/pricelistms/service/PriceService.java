@@ -1,7 +1,7 @@
-package uz.aziz.price_list.service;
+package uz.aziz.pricelistms.service;
 
-import uz.aziz.price_list.model.dto.PriceDto;
-import uz.aziz.price_list.model.dto.ResponseDto;
+import uz.aziz.pricelistms.model.dto.PriceDto;
+import uz.aziz.pricelistms.model.dto.ResponseDto;
 
 import java.util.List;
 

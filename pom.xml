@@ -6,13 +6,16 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.3.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>uz.aziz</groupId>
     <artifactId>price_list</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>Price List MS</name>
-    <description>Price List MS</description>
+    <version>1.0.1</version>
+    <name>price-list-ms</name>
+    <description>Price List Microservice is a Spring Boot project that provides a set of CRUD operations for
+        managing price lists. It exposes a RESTful API with endpoints for creating, reading, updating, and
+        deleting price data. The service is dockerized and uses a PostgreSQL database, allowing easy deployment
+        and scaling.</description>
     <url/>
     <licenses>
         <license/>
@@ -28,6 +31,8 @@
     </scm>
     <properties>
         <java.version>21</java.version>
+        <swagger.version>2.5.0</swagger.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
     </properties>
     <dependencies>
         <dependency>
@@ -52,22 +57,21 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.5.0</version>
+            <version>${swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
-            <version>1.5.5.Final</version>
+            <version>${mapstruct.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>1.5.5.Final</version>
+            <version>${mapstruct.version}</version>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>price-list</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

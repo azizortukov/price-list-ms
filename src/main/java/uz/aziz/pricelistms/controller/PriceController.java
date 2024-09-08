@@ -1,4 +1,4 @@
-package uz.aziz.price_list.controller;
+package uz.aziz.pricelistms.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -8,9 +8,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import uz.aziz.price_list.model.dto.PriceDto;
-import uz.aziz.price_list.model.dto.ResponseDto;
-import uz.aziz.price_list.service.PriceService;
+import uz.aziz.pricelistms.model.dto.PriceDto;
+import uz.aziz.pricelistms.model.dto.ResponseDto;
+import uz.aziz.pricelistms.service.PriceService;
 
 import java.util.List;
 

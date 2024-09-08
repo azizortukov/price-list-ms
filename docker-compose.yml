@@ -1,7 +1,7 @@
 services:
 
   price-list:
-    image: anasortukov/price-list-ms:v1.0
+    image: anasortukov/price-list-ms:1.0.1
     ports:
       - "${PRICE_LIST_PORT:-8080}:8080"
     depends_on:

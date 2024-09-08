@@ -1,9 +1,9 @@
-package uz.aziz.price_list.repo;
+package uz.aziz.pricelistms.repository;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import uz.aziz.price_list.entity.Price;
+import uz.aziz.pricelistms.entity.Price;
 
 import java.util.List;
 
