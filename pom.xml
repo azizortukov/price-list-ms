@@ -9,7 +9,7 @@
         <relativePath/>
     </parent>
     <groupId>uz.aziz</groupId>
-    <artifactId>price_list</artifactId>
+    <artifactId>price-list-ms</artifactId>
     <version>1.0.1</version>
     <name>price-list-ms</name>
     <description>Price List Microservice is a Spring Boot project that provides a set of CRUD operations for

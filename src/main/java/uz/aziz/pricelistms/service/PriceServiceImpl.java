@@ -89,8 +89,8 @@ public class PriceServiceImpl implements PriceService {
             log.error("Exception in class {} and method {}: DataIntegrityViolationException occurred: {}",
                     this.getClass().getName(), "save", e.getLocalizedMessage(), e);
 
-            String msg = "Couldn't be saved. Price with (service_id = '%s') and (mxik_code = %d) already exists!"
-                    .formatted(priceDto.mxikCode(), priceDto.pricePerUnit());
+            String msg = "Couldn't be saved. Price with (serviceId = %d) and (mxikCode = '%s') already exists!"
+                    .formatted(priceDto.serviceId(), priceDto.mxikCode());
             return new ResponseDto<>(msg);
         } catch (DataAccessException e) {
             log.error("Exception in class {} and method {}: DataAccessException occurred: {}",
@@ -121,8 +121,8 @@ public class PriceServiceImpl implements PriceService {
             log.error("Exception in class {} and method {}: DataIntegrityViolationException occurred: {}",
                     this.getClass().getName(), "updateById", e.getLocalizedMessage(), e);
 
-            String msg = "Couldn't be updated. Price with (service_id = '%s') and (mxik_code = %d) already exists!"
-                    .formatted(priceDto.mxikCode(), priceDto.pricePerUnit());
+            String msg = "Couldn't be updated. Price with (serviceId = %d) and (mxikCode = '%s') already exists!"
+                    .formatted(priceDto.serviceId(), priceDto.mxikCode());
             return new ResponseDto<>(msg);
         } catch (DataAccessException e) {
             log.error("Exception in class {} and method {}: DataAccessException occurred: {}",

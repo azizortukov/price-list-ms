@@ -1,11 +1,13 @@
 package uz.aziz.pricelistms.model.dto;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 @EqualsAndHashCode
+@Getter
 public class ResponseDto<T> {
 
     private T data;
