@@ -46,9 +46,9 @@ The project is dockerized using Docker and Docker Compose. To run the applicatio
    PRICE_LIST_PORT=7070 POSTGRES_PORT=6060 docker-compose up -d
    ```
 
-4. Access the Swagger UI at `http://localhost:8080/swagger-ui.html` to explore and test the API.
+4. Access the Swagger UI at http://localhost:8080/swagger-ui.html to explore and test the API. After visit, when you use `GET` method, you can see 3 sample data of prices which are added as mock data.
 
-   *If you run on your custom port, then `http://localhost:<entered_port>/swagger-ui.html`.*
+   ***Keep in mind:** If you run on your custom port, then http://localhost:<entered_port>/swagger-ui.html.*
 
 5. To stop the containers, run:
    ```bash

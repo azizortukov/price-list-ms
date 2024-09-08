@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseDto<?> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-        log.error("Exception handler in class GlobalExceptionHandler in method handleMethodArgumentTypeMismatchException, occurred: {}",
+        log.error("Exception in class GlobalExceptionHandler in method handleMethodArgumentTypeMismatchException, occurred: {}",
                 e.getLocalizedMessage());
 
         String msg = "Failed to convert value: '" + e.getValue() + "' to required type: '" +
@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseDto<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.error("Exception in GlobalExceptionHandler in method handleMethodArgumentNotValidException, occurred: {}",
+        log.error("Exception in class GlobalExceptionHandler in method handleMethodArgumentNotValidException, occurred: {}",
                 e.getLocalizedMessage());
 
         StringBuilder msg = new StringBuilder("Check field(s) format: ");
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Throwable.class)
     public ResponseDto<?> handleThrowable(Throwable throwable) {
-        log.error("Exception in GlobalExceptionHandler in method handleThrowable, occurred: {}",
+        log.error("Exception in class GlobalExceptionHandler in method handleThrowable, occurred: {}",
                 throwable.getLocalizedMessage());
 
         return new ResponseDto<>(throwable.getLocalizedMessage());
