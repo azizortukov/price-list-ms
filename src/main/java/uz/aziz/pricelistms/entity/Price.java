@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @ToString
 @Entity
 @Builder
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"service_id", "mxik_code"})})
+@Table(name = "price_list")
 public class Price {
 
     @Id

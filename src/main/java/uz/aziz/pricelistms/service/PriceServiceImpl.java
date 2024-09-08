@@ -3,7 +3,6 @@ package uz.aziz.pricelistms.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -39,17 +38,13 @@ public class PriceServiceImpl implements PriceService {
                 return new ResponseDto<>("Price with id = %d not found".formatted(id));
             }
         } catch (DataAccessException e) {
-            log.error("Exception in class {} and method {}: DataAccessException occurred: {}",
-                    this.getClass().getName(), "getById", e.getLocalizedMessage(), e);
-            return new ResponseDto<>("Database error occurred: " + e.getLocalizedMessage());
-        } catch (NullPointerException e) {
-            log.error("Exception in class {} and method {}: NullPointerException occurred: {}",
-                    this.getClass().getName(), "getById", e.getLocalizedMessage(), e);
-            return new ResponseDto<>("Internal error: " + e.getLocalizedMessage());
-        } catch (RuntimeException e) {
-            log.error("Exception in class {} and method {}: RuntimeException occurred: {}",
-                    this.getClass().getName(), "getById", e.getLocalizedMessage(), e);
-            return new ResponseDto<>("An unexpected error occurred: " + e.getLocalizedMessage());
+            log.error("DataAccessException in getById: {}", e.getLocalizedMessage());
+            return new ResponseDto<>("Couldn't access to the database, please contact admin");
+
+        } catch (Exception e) {
+            log.error("Exception in getAll: {}", e.getLocalizedMessage());
+            return new ResponseDto<>("Internal server error, please contact admin");
+
         }
     }
 
@@ -60,50 +55,43 @@ public class PriceServiceImpl implements PriceService {
             size = size < 1 ? 10 : size;
             Pageable pageable = PageRequest.of(page, size);
             List<Price> all = priceRepository.findAll(serviceId, mxikCode, pricePerUnit, packageCode, pageable);
+
+            log.info("Retrieved {} prices", all.size());
             return new ResponseDto<>(priceMapper.toDtoList(all));
+
         } catch (DataAccessException e) {
-            log.error("Exception in class {} and method {}: DataAccessException occurred: {}",
-                    this.getClass().getName(), "getAll", e.getLocalizedMessage(), e);
-            return new ResponseDto<>("Database error occurred: " + e.getLocalizedMessage());
-        } catch (NullPointerException e) {
-            log.error("Exception in class {} and method {}: NullPointerException occurred: {}",
-                    this.getClass().getName(), "getAll", e.getLocalizedMessage(), e);
-            return new ResponseDto<>("Internal error: " + e.getLocalizedMessage());
-        } catch (RuntimeException e) {
-            log.error("Exception in class {} and method {}: RuntimeException occurred: {}",
-                    this.getClass().getName(), "getAll", e.getLocalizedMessage(), e);
-            return new ResponseDto<>("An unexpected error occurred: " + e.getLocalizedMessage());
+            log.error("DataAccessException in getAll: {}", e.getLocalizedMessage());
+            return new ResponseDto<>("Couldn't access the database, please contact admin");
+
+        } catch (Exception e) {
+            log.error("Exception in getAll: {}", e.getLocalizedMessage());
+            return new ResponseDto<>("Internal server error, please contact admin");
         }
     }
 
     @Override
     public ResponseDto<PriceDto> save(PriceDto priceDto) {
         try {
-            Price savedPrice = priceRepository.save(priceMapper.toEntity(priceDto));
-            savedPrice.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Tashkent")));
+            Price price = priceMapper.toEntity(priceDto);
+            price.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Tashkent")));
+            if (priceRepository.existsByServiceIdAndMxikCode(price.getServiceId(), price.getMxikCode())) {
+                return new ResponseDto<>("Price with serviceId = %d and mxikCode = '%s' already exist"
+                        .formatted(price.getServiceId(), price.getMxikCode()));
+            }
 
-            log.info("Price with id = {} saved", savedPrice.getId());
+            priceRepository.save(price);
 
-            return new ResponseDto<>(priceMapper.toDto(savedPrice));
-        } catch (DataIntegrityViolationException e) {
-            log.error("Exception in class {} and method {}: DataIntegrityViolationException occurred: {}",
-                    this.getClass().getName(), "save", e.getLocalizedMessage(), e);
+            log.info("Price with id = {} saved", price.getId());
+            return new ResponseDto<>(priceMapper.toDto(price));
 
-            String msg = "Couldn't be saved. Price with (serviceId = %d) and (mxikCode = '%s') already exists!"
-                    .formatted(priceDto.serviceId(), priceDto.mxikCode());
-            return new ResponseDto<>(msg);
         } catch (DataAccessException e) {
-            log.error("Exception in class {} and method {}: DataAccessException occurred: {}",
-                    this.getClass().getName(), "save", e.getLocalizedMessage(), e);
-            return new ResponseDto<>("Database error occurred: " + e.getLocalizedMessage());
-        } catch (NullPointerException e) {
-            log.error("Exception in class {} and method {}: NullPointerException occurred: {}",
-                    this.getClass().getName(), "save", e.getLocalizedMessage(), e);
-            return new ResponseDto<>("Internal error: " + e.getLocalizedMessage());
-        } catch (RuntimeException e) {
-            log.error("Exception in class {} and method {}: RuntimeException occurred: {}",
-                    this.getClass().getName(), "save", e.getLocalizedMessage(), e);
-            return new ResponseDto<>("An unexpected error occurred: " + e.getLocalizedMessage());
+            log.error("DataAccessException in save: {}", e.getLocalizedMessage());
+            return new ResponseDto<>("Couldn't access to the database, please contact admin");
+
+        } catch (Exception e) {
+            log.error("Exception in save: {}", e.getLocalizedMessage());
+            return new ResponseDto<>("Internal server error, please contact admin");
+
         }
     }
 
@@ -113,29 +101,24 @@ public class PriceServiceImpl implements PriceService {
             if (!priceRepository.existsById(id)) {
                 return new ResponseDto<>("Price with id = %s not found".formatted(id));
             }
+            if (priceRepository.existsByServiceIdAndMxikCode(priceDto.serviceId(), priceDto.mxikCode())) {
+                return new ResponseDto<>("Price with serviceId = %d and mxikCode = '%s' already exist"
+                        .formatted(priceDto.serviceId(), priceDto.mxikCode()));
+            }
+
             Price price = priceMapper.toEntity(priceDto);
             price.setId(id);
             Price updatedPrice = priceRepository.save(price);
             return new ResponseDto<>(priceMapper.toDto(updatedPrice));
-        } catch (DataIntegrityViolationException e) {
-            log.error("Exception in class {} and method {}: DataIntegrityViolationException occurred: {}",
-                    this.getClass().getName(), "updateById", e.getLocalizedMessage(), e);
 
-            String msg = "Couldn't be updated. Price with (serviceId = %d) and (mxikCode = '%s') already exists!"
-                    .formatted(priceDto.serviceId(), priceDto.mxikCode());
-            return new ResponseDto<>(msg);
         } catch (DataAccessException e) {
-            log.error("Exception in class {} and method {}: DataAccessException occurred: {}",
-                    this.getClass().getName(), "updateById", e.getLocalizedMessage(), e);
-            return new ResponseDto<>("Database error occurred: " + e.getLocalizedMessage());
-        } catch (NullPointerException e) {
-            log.error("Exception in class {} and method {}: NullPointerException occurred: {}",
-                    this.getClass().getName(), "updateById", e.getLocalizedMessage(), e);
-            return new ResponseDto<>("Internal error: " + e.getLocalizedMessage());
-        } catch (RuntimeException e) {
-            log.error("Exception in class {} and method {}: RuntimeException occurred: {}",
-                    this.getClass().getName(), "updateById", e.getLocalizedMessage(), e);
-            return new ResponseDto<>("An unexpected error occurred: " + e.getLocalizedMessage());
+            log.error("DataAccessException in updateById: {}", e.getLocalizedMessage());
+            return new ResponseDto<>("Couldn't access to the database, please contact admin");
+
+        } catch (Exception e) {
+            log.error("Exception in updateById: {}", e.getLocalizedMessage());
+            return new ResponseDto<>("Internal server error, please contact admin");
+
         }
     }
 
@@ -145,17 +128,15 @@ public class PriceServiceImpl implements PriceService {
             priceRepository.deleteById(id);
             log.info("Price with id = {} has been deleted", id);
             return new ResponseDto<>();
+
         } catch (DataAccessException e) {
-            log.error("Exception in class {} and method {}: DataAccessException occurred: {}",
-                    this.getClass().getName(), "deleteById", e.getLocalizedMessage(), e);
-            return new ResponseDto<>("Database error occurred: " + e.getLocalizedMessage());
-        } catch (NullPointerException e) {
-            log.error("Exception in class {} and method {}: NullPointerException occurred: {}",
-                    this.getClass().getName(), "deleteById", e.getLocalizedMessage(), e);
-            return new ResponseDto<>("Internal error: " + e.getLocalizedMessage());
-        } catch (RuntimeException e) {
-            log.error("Exception in class {} and method {}: RuntimeException occurred: {}", this.getClass().getName(), "deleteById", e.getLocalizedMessage(), e);
-            return new ResponseDto<>("An unexpected error occurred: " + e.getLocalizedMessage());
+            log.error("DataAccessException in deleteById: {}", e.getLocalizedMessage());
+            return new ResponseDto<>("Couldn't access to the database, please contact admin");
+
+        } catch (Exception e) {
+            log.error("Exception in deleteById: {}", e.getLocalizedMessage());
+            return new ResponseDto<>("Internal server error, please contact admin");
+
         }
     }
 

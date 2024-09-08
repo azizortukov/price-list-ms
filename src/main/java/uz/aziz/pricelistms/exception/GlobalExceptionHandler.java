@@ -17,18 +17,27 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseDto<?> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-        String msg = "Failed to convert value: '" + e.getValue() + "' to required type: '" + Objects.requireNonNull(e.getRequiredType()) + "'";
+        log.error("Exception handler in class GlobalExceptionHandler in method handleMethodArgumentTypeMismatchException, occurred: {}",
+                e.getLocalizedMessage());
+
+        String msg = "Failed to convert value: '" + e.getValue() + "' to required type: '" +
+                     Objects.requireNonNull(e.getRequiredType()) + "'";
+
         return new ResponseDto<>(msg);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseDto<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        log.error("Exception in GlobalExceptionHandler in method handleMethodArgumentNotValidException, occurred: {}",
+                e.getLocalizedMessage());
+
         StringBuilder msg = new StringBuilder("Check field(s) format: ");
         e.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             msg.append(fieldName).append(" - ").append(errorMessage);
         });
+
         return new ResponseDto<>(msg.toString());
     }
 
@@ -39,7 +48,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Throwable.class)
     public ResponseDto<?> handleThrowable(Throwable throwable) {
-        log.error("Exception in GlobalExceptionHandler.handleThrowable: {}", throwable.getMessage(), throwable);
+        log.error("Exception in GlobalExceptionHandler in method handleThrowable, occurred: {}",
+                throwable.getLocalizedMessage());
 
         return new ResponseDto<>(throwable.getLocalizedMessage());
     }
